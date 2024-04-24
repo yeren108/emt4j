@@ -50,6 +50,12 @@ public class InstanceRuleManager {
      * @param toVersion
      */
     public synchronized static void init(String[] classList, String[] features, String[] modes, int fromVersion, int toVersion, String priority) {
+        //1 classList ：AddExportsRule,IncompatibleJarRule,vmOptionRule,ReferenceClassRule,TouchedMethodRule,WholeClassRule,DeprecatedAPIRule
+        //2 features ：default
+        //3 modes：class & source
+        //4 fromVersion
+        //5 toVersion
+        //6 priority
         if (hasInit) {
             return;
         }
@@ -67,18 +73,22 @@ public class InstanceRuleManager {
                     if (null == c) {
                         throw new JdkMigrationException("Cannot found rule implementation for type : " + ruleItem.getType());
                     }
+                    //构造所有的规则
                     Constructor<ExecutableRule> constructor = c.getConstructor(ConfRuleItem.class, ConfRules.class);
                     if (null == constructor) {
                         throw new JdkMigrationException("The class: " + c.getName() + " is not a valid implementation of ExecutableRule!");
                     }
+                    //实例化所有的规则
                     ExecutableRule executableRule = constructor.newInstance(ruleItem, confRules);
                     //inject value defined in rule config file to object instance.
-                    if (ruleItem.getUserDefineAttrs() != null) {
+                    if (ruleItem.getUserDefineAttrs() != null) {//eg: mvel2-rule-getjavaversion.cfg , mvel2-rule-file
                         for (String[] nameValue : ruleItem.getUserDefineAttrs()) {
                             setValue(executableRule, nameValue[0], nameValue[1]);
                         }
                     }
+                    //最终调用init
                     executableRule.init();
+                    //添加规则类
                     instanceList.add(executableRule);
                 }
             }

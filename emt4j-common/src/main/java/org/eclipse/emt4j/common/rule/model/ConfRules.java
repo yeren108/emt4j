@@ -22,8 +22,8 @@ import java.util.List;
 
 public class ConfRules {
     private List<ConfRuleItem> ruleItems;
-    private String ruleDataPathPrefix;
-    private String feature;
+    private String ruleDataPathPrefix;//eg:  /default/rule/8to11/data/
+    private String feature;//default
     private int fromVersion;
     private int toVersion;
 

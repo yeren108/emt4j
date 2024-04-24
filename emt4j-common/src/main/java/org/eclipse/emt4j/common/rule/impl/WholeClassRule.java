@@ -50,15 +50,19 @@ public class WholeClassRule extends ExecutableRule {
 
     @Override
     public void init() {
+        //methodSet.contains('java.lang.System.getProperty') &&
+        // (cpSet.contains('java.version') ||
+        // cpSet.contains('java.specification.version') ||
+        // cpSet.contains('java.runtime.version'))
         mvel2Rule = String.join(" ", FileUtil.readPlainTextFromResource(confRules.getRuleDataPathPrefix() + mvel2RuleFile, false));
     }
 
     @Override
     protected CheckResult check(Dependency dependency) {
         Map<String, Object> mvelMap = new HashMap<>();
-        mvelMap.put("typeSet", dependency.getClassSymbol().getTypeSet());
-        mvelMap.put("methodSet", toMethodIdentifierSet(dependency.getClassSymbol().getCallMethodSet()));
-        mvelMap.put("cpSet", dependency.getClassSymbol().getConstantPoolSet());
+        mvelMap.put("typeSet", dependency.getClassSymbol().getTypeSet());//typeSet
+        mvelMap.put("methodSet", toMethodIdentifierSet(dependency.getClassSymbol().getCallMethodSet()));//methodSet
+        mvelMap.put("cpSet", dependency.getClassSymbol().getConstantPoolSet());//constantPool
         Object result = MVEL.eval(mvel2Rule, mvelMap);
         if (result instanceof Boolean) {
             if (staticAnalysisRule == null) {

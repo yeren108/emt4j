@@ -85,7 +85,7 @@ public class AnalysisMain {
         optionProcessor.addOption(Option.buildDefaultOption(
                 AnalysisMain::isSource,
                 (v) -> {
-                    processSource(reportConfig, analysisExecutor, v);
+                    processSource(reportConfig, analysisExecutor, v);//v=Users/StephenSTF/Documents/github/yeren-cms/.emt4j
                 }));
         optionProcessor.setShowUsage((s) -> printUsage(s));
         if (checkConfig.getFromVersion() >= checkConfig.getToVersion()) {
@@ -128,12 +128,18 @@ public class AnalysisMain {
         if (file.isDirectory() && file.getName().equals(".emt4j")) {
             try {
                 BufferedReader br = Files.newBufferedReader(new File(file, "modules").toPath());
-                String str;
+                String str;//eg: com.yeren:yeren-cms:1.0=/Users/StephenSTF/Documents/github/yeren-cms/target/classes:/Users/StephenSTF/Documents/github/yeren-cms/target/test-classes
                 while ((str = br.readLine()) != null) {
+                    //pair[0]  com.yeren:yeren-cms:1.0
+                    //pair[1]  /Users/StephenSTF/Documents/github/yeren-cms/target/classes:/Users/StephenSTF/Documents/github/yeren-cms/target/test-classes
                     String[] pair = str.split("=");
                     String[] paths = pair[1].split(File.pathSeparator);
+                    //paths[0] /Users/StephenSTF/Documents/github/yeren-cms/target/classes
+                    //paths[1] /Users/StephenSTF/Documents/github/yeren-cms/target/test-classes
                     SourceInformation info = buildSourceInformation(pair[0], false);
+                    //info {name='yeren-cms', isDependency=false, extras=[com.yeren:yeren-cms:1.0]}
                     for (String path : paths) {
+                        //1
                         DependencySource dependencySource = doProcessSource(reportConfig, analysisExecutor, path);
                         if (dependencySource != null) {
                             dependencySource.setInformation(info);
@@ -143,11 +149,13 @@ public class AnalysisMain {
                 br.close();
 
                 br = Files.newBufferedReader(new File(file, "dependencies").toPath());
+                //eg: str = junit:junit:4.12=/Users/StephenSTF/.m2/repository/junit/junit/4.12/junit-4.12.jar
                 while ((str = br.readLine()) != null) {
                     String[] pair = str.split("=");
                     if (pair[1].endsWith(".pom")) {
                         continue;
                     }
+                    //2分析依赖
                     DependencySource dependencySource = doProcessSource(reportConfig, analysisExecutor, pair[1]);
                     if (dependencySource != null) {
                         dependencySource.setInformation(buildSourceInformation(pair[0], true));
@@ -158,11 +166,15 @@ public class AnalysisMain {
                 throw new RuntimeException(t);
             }
         } else {
+            //3
             doProcessSource(reportConfig, analysisExecutor, v);
         }
     }
 
     private static DependencySource doProcessSource(ReportConfig reportConfig, AnalysisExecutor analysisExecutor, String v) {
+        //v是一个path路径
+        //v= /Users/StephenSTF/Documents/github/yeren-cms/target/classes
+        //v= /Users/StephenSTF/Documents/github/yeren-cms/target/test-classes
         Optional<DependencySource> opt= getSource(v);
         if (!opt.isPresent()) {
             System.err.println(v + " doesn't exist");

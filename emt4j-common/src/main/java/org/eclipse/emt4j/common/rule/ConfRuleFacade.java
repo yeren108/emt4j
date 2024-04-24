@@ -45,7 +45,14 @@ public class ConfRuleFacade {
     }
 
     public static List<ConfRules> load(String[] features, String[] modes, int fromVersion, int toVersion) throws SAXException, IOException, URISyntaxException {
+        //2 features ：default
+        //3 modes：class & source
+        //4 fromVersion
+        //5 toVersion
+
+
         int[][] roadmap = findWays(fromVersion, toVersion);
+        //roadmap[0] = [8,11]
         if (roadmap == null) {
             throw new RuntimeException("Not a valid fromVersion: " + fromVersion + ",toVersion:" + toVersion + " pair!");
         }
@@ -53,7 +60,7 @@ public class ConfRuleFacade {
         List<ConfRules> confRulesList = new ArrayList<>();
         for (int[] oneWay : roadmap) {
             for (String feature : features) {
-                Optional<ConfRules> confRules = ConfRuleRepository.load(feature, oneWay[0], oneWay[1]);
+                Optional<ConfRules> confRules = ConfRuleRepository.load(feature/*default*/, oneWay[0]/*8*/, oneWay[1]/*11*/);
                 confRules.ifPresent((v) -> {
                     if (v.getRuleItems() != null) {
                         v.setRuleItems(v.getRuleItems().stream().

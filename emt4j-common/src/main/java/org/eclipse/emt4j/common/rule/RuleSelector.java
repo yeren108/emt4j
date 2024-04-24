@@ -29,19 +29,20 @@ import java.util.*;
  */
 public class RuleSelector {
     public static Map<String, Class> select(String[] classList) throws ClassNotFoundException {
+        //1 classList ：xxxx.AddExportsRule,IncompatibleJarRule,vmOptionRule,ReferenceClassRule,TouchedMethodRule,WholeClassRule,DeprecatedAPIRule
         Set<Class> classesSet = new HashSet<>();
         for (String className : classList) {
             classesSet.add(Class.forName(className));
         }
 
         //if there more than one with same type,select the highest priority
-        Map<String, Map<Integer, Class>> typePriorityMap = new HashMap<>();
+        Map<String/*eg: whole-class*/, Map<Integer/*priority*/, Class/*WholeClassRule.class*/>> typePriorityMap = new HashMap<>();
         for (Class c : classesSet) {
             Annotation annotation = c.getAnnotation(RuleImpl.class);
             if (annotation == null) {
                 continue;
             }
-
+            //根据规则类中的注解来选择（WholeClassRule.java）
             if (annotation instanceof RuleImpl) {
                 RuleImpl ruleImplAnnotation = (RuleImpl) annotation;
                 typePriorityMap.computeIfAbsent(ruleImplAnnotation.type(), i -> new HashMap<>())
@@ -49,7 +50,7 @@ public class RuleSelector {
             }
         }
 
-        Map<String, Class> highestPriority = new HashMap<>();
+        Map<String/*eg: whole-class*/, Class/*WholeClassRule.class*/> highestPriority = new HashMap<>();
         typePriorityMap.forEach((k, v) -> highestPriority.put(k, v.get(Collections.min(v.keySet()))));
         return highestPriority;
     }

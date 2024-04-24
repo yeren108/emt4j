@@ -20,14 +20,24 @@ package org.eclipse.emt4j.common.rule.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * /default/rule/8to11/rule.xml中的规则
+ *
+ * 例子：
+ * desc=Get java version for classfile
+ * type=whole-class
+ * result-code=GET_JDK_VERSION
+ * priority=p1
+ * vel2-rule-file=mvel2-rule-getjavaversion.cfg
+ *
+ */
 public class ConfRuleItem {
     private String desc;
     private String type;
     private String resultCode;
     private String subResultCode;
-    private List<String> supportModes = new ArrayList<>();
-    private List<String[]> userDefineAttrs;
+    private List<String> supportModes = new ArrayList<>();// class,agent
+    private List<String[]> userDefineAttrs;//eg: mvel2-rule-getjavaversion.cfg , mvel2-rule-file
     private String priority;
 
     public String getDesc() {

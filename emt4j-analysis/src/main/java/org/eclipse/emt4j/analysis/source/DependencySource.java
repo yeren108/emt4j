@@ -33,7 +33,7 @@ public abstract class DependencySource {
 
     private final File file;
 
-    private SourceInformation information;
+    private SourceInformation information;//{name='yeren-cms', isDependency=false, extras=[com.yeren:yeren-cms:1.0]}
 
     public DependencySource(File file) {
         this.file = file;

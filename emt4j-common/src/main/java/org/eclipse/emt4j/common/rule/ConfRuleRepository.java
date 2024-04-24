@@ -62,7 +62,7 @@ public class ConfRuleRepository {
                 throw new RuntimeException("feature must be number or digit");
             }
         }
-
+        //basePath=default/rule/8to11
         String basePath = "/" + feature + "/rule/" + fromVersion + "to" + toVersion;
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(ConfRuleRepository.class.getResource("/xsd/rules.xsd").toURI().toURL());
@@ -88,6 +88,7 @@ public class ConfRuleRepository {
             }
         });
 
+        // rulePath=default/rule/8to11/rule.xml
         String rulePath = basePath + "/rule.xml";
         try (InputStream is = ConfRuleRepository.class.getResourceAsStream(rulePath)) {
             if (is == null) {
@@ -106,10 +107,10 @@ public class ConfRuleRepository {
             saxParser.parse(is, ruleConfSAXHandler);
 
             ConfRules confRules = new ConfRules();
-            confRules.setRuleDataPathPrefix(basePath + "/data/");
+            confRules.setRuleDataPathPrefix(basePath + "/data/");//default/rule/8to11/data/
             confRules.setFromVersion(fromVersion);
             confRules.setToVersion(toVersion);
-            confRules.setFeature(feature);
+            confRules.setFeature(feature);//default
             confRules.setRuleItems(ruleConfSAXHandler.ruleItems);
             return Optional.of(confRules);
         } catch (IOException | SAXException | ParserConfigurationException e) {

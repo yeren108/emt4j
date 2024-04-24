@@ -78,6 +78,12 @@ public class AnalysisExecutor {
     public void execute(List<Feature> featureList, Progress parentProgress) throws IOException {
         log("[Begin]Analysis");
         ClassURL.registerUrlProtocolHandler();
+        //1 classList ：AddExportsRule,IncompatibleJarRule,vmOptionRule,ReferenceClassRule,TouchedMethodRule,WholeClassRule,DeprecatedAPIRule
+        //2 features ：default
+        //3 modes：class & source
+        //4 fromVersion
+        //5 toVersion
+        //6 priority
         InstanceRuleManager.init(RULE_CLASS, featureList.stream().map((c) -> c.getId()).collect(Collectors.toList()).toArray(new String[featureList.size()]),
                 new String[]{"class", "source"},
                 checkConfig.getFromVersion(), checkConfig.getToVersion(), checkConfig.getPriority());
@@ -94,9 +100,10 @@ public class AnalysisExecutor {
                                 if (alreadyChecked.contains(hashCode) || !alreadyChecked.add(hashCode)) {
                                     return;
                                 }
+                                //这里遍历所有的规则类
                                 for (ExecutableRule rule : InstanceRuleManager.getRuleInstanceList()) {
                                     if (rule.accept(d)) {
-                                        ReportCheckResult checkResult = rule.execute(d);
+                                        ReportCheckResult checkResult = rule.execute(d);//执行所有的规则
                                         if (!checkResult.isPass()) {
                                             if (checkResult.getPropagated().isEmpty()) {
                                                 analysisOutputConsumer.onNewRecord(d, checkResult, rule, source.getInformation());

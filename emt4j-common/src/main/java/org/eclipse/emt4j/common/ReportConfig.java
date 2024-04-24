@@ -26,12 +26,12 @@ import java.util.Locale;
 public class ReportConfig {
     private List<File> inputFiles = new ArrayList<>();
 
-    private String outputFile;
+    private String outputFile;//eg: Users/StephenSTF/Documents/github/yeren-cms/report.html
 
     private boolean verbose = false;
-    private String outputFormat;
+    private String outputFormat;//html
 
-    private Locale locale = Locale.getDefault();
+    private Locale locale = Locale.getDefault();//zh_CN
 
     private String targetJdkHome;
 
