@@ -58,11 +58,12 @@ public class AnalysisMain {
     }
 
     static ReportConfig doAnalysis(String[] args, Progress progress) throws IOException {
+        //args ["-f", "8", "-t", "11", "-p", "HTML", "-o", "/Users/StephenSTF/Documents/github/yeren-cms/report.html" ,"/Users/StephenSTF/Documents/github/yeren-cms/.emt4j"]
         if (null == args || args.length == 0) {
             printUsage(null);
         }
 
-        progress.printTitle();
+        progress.printTitle();//1. Analysis
         CheckConfig checkConfig = new CheckConfig();
         ReportConfig reportConfig = new ReportConfig();
         final List<Feature> featureList = new ArrayList<>();

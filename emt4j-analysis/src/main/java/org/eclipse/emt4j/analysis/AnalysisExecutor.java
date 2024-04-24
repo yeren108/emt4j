@@ -90,7 +90,7 @@ public class AnalysisExecutor {
         analysisOutputConsumer.onBegin(checkConfig, featureList);
 
         Set<Integer> alreadyChecked = new ConcurrentSkipListSet<>();
-
+        //所有的待扫描文件都在sourceList，包括xxx/target/classes, xxx/target/test-classes, /Users/StephenSTF/.m2/repository/junit/junit/4.12/junit-4.12.jar .....
         sourceList.parallelStream().forEach(
                 source -> {
                     try {
@@ -101,6 +101,24 @@ public class AnalysisExecutor {
                                     return;
                                 }
                                 //这里遍历所有的规则类
+                                /**
+                                 * InstanceRuleManager.getRuleInstanceList()
+                                 *
+                                 * [org.eclipse.emt4j.common.rule.impl.ReferenceClassRule@72bdd7c7,
+                                 * org.eclipse.emt4j.common.rule.impl.AddExportsRule@7d17ee50,
+                                 * org.eclipse.emt4j.common.rule.impl.JvmOptionRule@44fdce3c,
+                                 * org.eclipse.emt4j.common.rule.impl.ReferenceClassRule@712c5463,
+                                 * org.eclipse.emt4j.common.rule.impl.TouchedMethodRule@6d33a66e,
+                                 * org.eclipse.emt4j.common.rule.impl.IncompatibleJarRule@2f14b0f6,
+                                 * org.eclipse.emt4j.common.rule.impl.DeprecatedAPIRule@5b20706,
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@16aed49f,//1 mvel2-rule-getjavaversion.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@66de00f2,//2 mvel2-rule-castarraysaslisttoarray.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@6c479fdf,//3 mvel2-rule-patterncompile.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@79d82f66,//4 mvel2-rule-castsystemclassloadertourlclassloader.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@19b206ee,//5 mvel2-rule-cldrdateformat.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@ffd4cba,//6 mvel2-rule-cldrcalendarfirstdayofweek.cfg
+                                 * org.eclipse.emt4j.common.rule.impl.WholeClassRule@5f1483fd]//7 mvel2-rule-cldrnumberformat.cfg
+                                 */
                                 for (ExecutableRule rule : InstanceRuleManager.getRuleInstanceList()) {
                                     if (rule.accept(d)) {
                                         ReportCheckResult checkResult = rule.execute(d);//执行所有的规则

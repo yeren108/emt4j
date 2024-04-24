@@ -30,9 +30,13 @@ import java.util.Objects;
  * It describes what depends on what, and the type and the context surrounding the dependency.
  */
 public class Dependency implements Serializable, Cloneable {
+    /**
+     * locationExternalForm------> eg:  file:/Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar
+     * !/org/apache/commons/collections/bidimap/TreeBidiMap$ViewIterator.class
+     */
     private String locationExternalForm;
     private DependTarget target;
-    private String targetFilePath;
+    private String targetFilePath;//eg: Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar
 
     private transient Class callerClass;
     private String callerMethod;
