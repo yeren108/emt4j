@@ -49,8 +49,10 @@ public class DependencyAnalyzer {
                 i++;
                 String fileStr = file.toString().toLowerCase();
                 if (fileStr.endsWith(".jar")) {
+                    //todo--这里分析类
                     JarAnalyzer.analyze(file, consumer);
                 } else if (fileStr.endsWith(".class")) {
+                    //todo--这里分析类
                     ClassAnalyzer.analyze(file, consumer);
                 }
                 if (progress != null) {

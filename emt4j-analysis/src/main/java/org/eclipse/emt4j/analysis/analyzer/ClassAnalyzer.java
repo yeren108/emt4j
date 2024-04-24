@@ -60,6 +60,7 @@ public class ClassAnalyzer {
 
         Dependency wholeClass = new Dependency(location,
                 new DependTarget.Class(className, DependType.WHOLE_CLASS), null, targetFilePath);
+        //这里设置类的属性
         wholeClass.setClassSymbol(symbol);
         wholeClass.setCurrClassBytecode(classFileContent);
         consumer.accept(wholeClass);

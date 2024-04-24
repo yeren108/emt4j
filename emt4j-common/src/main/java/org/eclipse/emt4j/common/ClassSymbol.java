@@ -27,11 +27,47 @@ import java.util.Set;
  * This class not include all symbol of a classes.Only some we need.
  */
 public class ClassSymbol {
+    /**
+     * typeSet eg:
+     *
+     * [java.util.Map$Entry,
+     * org.apache.commons.collections.MultiHashMap$Values,
+     * java.util.Iterator,
+     * org.apache.commons.collections.MultiHashMap,
+     * java.version,
+     * java.lang.System,
+     * java.util.Collection,
+     * java.io.ObjectInputStream,
+     * java.util.Set,
+     * org.apache.commons.collections.MultiHashMap$1,
+     * java.util.HashMap,
+     * java.util.ArrayList,
+     * org.apache.commons.collections.MultiMap,
+     * 1.2,
+     * 1.3,
+     * java.util.Map,
+     * java.lang.Object,
+     * java.lang.SecurityException,
+     * java.lang.String,
+     * org.apache.commons.collections.iterators.EmptyIterator]
+     */
     private Set<String> typeSet;
+
+    /**
+     * callMethodSet eg:
+     *
+     * [org.eclipse.emt4j.common.DependTarget$Method@895fcd1e,
+     * org.eclipse.emt4j.common.DependTarget$Method@436e862a,
+     * org.eclipse.emt4j.common.DependTarget$Method@391f2259,
+     * org.eclipse.emt4j.common.DependTarget$Method@abea17a6,
+     * org.eclipse.emt4j.common.DependTarget$Method@45b1274e,
+     * …
+     *  org.eclipse.emt4j.common.DependTarget$Method@ba292d56]
+     */
     private Set<DependTarget.Method> callMethodSet;
 
     private Map<DependTarget.Method, List<Integer>> callMethodToLines;
-    private Set<String> constantPoolSet;
+    private Set<String> constantPoolSet;//eg: [1.2, java.version, 1.3]
     private Map<String, Set<String>> invokeMap;
     private String className; // Internal class name
 

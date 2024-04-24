@@ -23,6 +23,8 @@ import org.eclipse.emt4j.analysis.source.DependencySource;
 import org.eclipse.emt4j.common.*;
 import org.eclipse.emt4j.common.rule.ExecutableRule;
 import org.eclipse.emt4j.common.rule.InstanceRuleManager;
+import org.eclipse.emt4j.common.rule.model.ConfRuleItem;
+import org.eclipse.emt4j.common.rule.model.ConfRules;
 import org.eclipse.emt4j.common.rule.model.ReportCheckResult;
 import org.eclipse.emt4j.common.util.ClassURL;
 
@@ -96,6 +98,14 @@ public class AnalysisExecutor {
                     try {
                         source.parse((d) -> {
                             try {
+                                /*String targetFilePath = d.getTargetFilePath();
+                                if (!"/Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar".equals(targetFilePath)) {
+                                    return;
+                                }
+                                String locationExternalForm = d.getLocationExternalForm();
+                                if (!"file:/Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar!/org/apache/commons/collections/MultiHashMap.class".equals(locationExternalForm)) {
+                                    return;
+                                }*/
                                 int hashCode = d.hashCode();
                                 if (alreadyChecked.contains(hashCode) || !alreadyChecked.add(hashCode)) {
                                     return;
@@ -121,6 +131,10 @@ public class AnalysisExecutor {
                                  */
                                 for (ExecutableRule rule : InstanceRuleManager.getRuleInstanceList()) {
                                     if (rule.accept(d)) {
+                                        /*String type = rule.getConfRuleItem().getType();
+                                        if (!"get-java-version".equalsIgnoreCase(type) && !"whole-class".equalsIgnoreCase(type)) {
+                                            continue;
+                                        }*/
                                         ReportCheckResult checkResult = rule.execute(d);//执行所有的规则
                                         if (!checkResult.isPass()) {
                                             if (checkResult.getPropagated().isEmpty()) {

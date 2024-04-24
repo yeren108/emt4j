@@ -57,6 +57,7 @@ class JarAnalyzer extends ClassAnalyzer {
             if (jarEntry.getName().endsWith(CLASS)) {
                 try (InputStream input = jarFile.getInputStream(jarEntry)) {
                     byte[] classFileContent = IOUtils.toByteArray(input);
+                    //这里解析jar中的类
                     processClass(classFileContent, new URL(jarFilePath.toUri().toURL() + SEPARATOR + jarEntry.getName()), jarFilePath.toFile().getAbsolutePath(), consumer, toClassName(jarEntry.getName()));
                 } catch (Exception e) {
                     // we don't want an error interrupt the analysis process
@@ -99,6 +100,7 @@ class JarAnalyzer extends ClassAnalyzer {
                 if (jarEntry.getName().endsWith(CLASS)) {
                     try (InputStream input = jarFile.getInputStream(jarEntry)) {
                         byte[] classFileContent = IOUtils.toByteArray(input);
+                        //这里解析jar中的类2
                         processClass(classFileContent, new URL(location + SEPARATOR + jarEntry.getName()), targetFilePath, consumer, toClassName(jarEntry.getName()));
                     } catch (Exception e) {
                         // we don't want an error interrupt the analysis process
