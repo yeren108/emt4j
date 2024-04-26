@@ -64,10 +64,10 @@ public class ClassSymbol {
      * …
      *  org.eclipse.emt4j.common.DependTarget$Method@ba292d56]
      */
-    private Set<DependTarget.Method> callMethodSet;
+    private Set<DependTarget.Method> callMethodSet;//被调用的每个方法
 
-    private Map<DependTarget.Method, List<Integer>> callMethodToLines;
-    private Set<String> constantPoolSet;//eg: [1.2, java.version, 1.3]
+    private Map<DependTarget.Method, List<Integer>> callMethodToLines;//被调用每个方法的位置（行数）
+    private Set<String> constantPoolSet;//常量池集合，eg: [1.2, java.version, 1.3]
     private Map<String, Set<String>> invokeMap;
     private String className; // Internal class name
 

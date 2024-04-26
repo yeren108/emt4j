@@ -47,6 +47,7 @@ public class DependencyAnalyzer {
         for (Path file : files) {
             try {
                 i++;
+                //fileStr eg: /users/stephenstf/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar
                 String fileStr = file.toString().toLowerCase();
                 if (fileStr.endsWith(".jar")) {
                     //todo--这里分析类

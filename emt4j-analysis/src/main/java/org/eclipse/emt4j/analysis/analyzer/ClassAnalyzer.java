@@ -44,6 +44,9 @@ public class ClassAnalyzer {
     }
 
     protected static void processClass(byte[] classFileContent, URL location, String targetFilePath, Consumer<Dependency> consumer, String className) {
+        //location eg:  file:/Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar!/org/apache/commons/collections/ArrayStack.class
+        //targetFilePath eg: /Users/StephenSTF/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar
+        //className eg: org.apache.commons.collections.ArrayStack
         ClassSymbol symbol = ClassInspectorInstance.getInstance().getSymbolInClass(classFileContent);
         for (String type : symbol.getTypeSet()) {
             consumer.accept(new Dependency(location, new DependTarget.Class(type, DependType.CLASS), null, targetFilePath));
